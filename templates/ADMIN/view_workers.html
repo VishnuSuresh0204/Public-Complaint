@@ -1,0 +1,80 @@
+{% extends 'ADMIN/commen.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Worker Management</h3>
+    </div>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Department</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for w in workers %}
+                <tr>
+                    <td>{{ w.name }}</td>
+                    <td>
+                        {% if w.profile_pic %}
+                        <img src="{{ w.profile_pic.url }}" width="50" height="50" alt="{{ w.name }}"
+                            class="rounded-circle">
+                        {% else %}
+                        <span class="text-muted">No Image</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ w.department.name }}</td>
+                    <td>{{ w.phone }}</td>
+                    <td>{{ w.email }}</td>
+                    <td>
+                        {% if w.status == "active" %}
+                        <span class="badge bg-success">Active</span>
+                        {% elif w.status == "pending" %}
+                        <span class="badge bg-warning text-dark">Pending</span>
+                        {% elif w.status == "blocked" %}
+                        <span class="badge bg-danger">Blocked</span>
+                        {% else %}
+                        <span class="badge bg-secondary">{{ w.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            {% if w.status == "pending" %}
+                            <a href="/approve_worker/?id={{ w.id }}" class="btn btn-success">Approve</a>
+                            <a href="/reject_worker/?id={{ w.id }}" class="btn btn-danger">Reject</a>
+                            {% elif w.status == "active" %}
+                            <a href="/block_worker/?id={{ w.id }}" class="btn btn-warning text-dark">Block</a>
+                            {% elif w.status == "blocked" %}
+                            <a href="/unblock_worker/?id={{ w.id }}" class="btn btn-success">Unblock</a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">No workers found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'CITIZEN/commen.html' %}
+{% block content %}
+
+<h3>My Feedbacks</h3>
+
+{% if feedbacks %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Complaint</th>
+            <th>Message</th>
+            <th>Rating</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for f in feedbacks %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ f.complaint.title }}</td>
+            <td>{{ f.message }}</td>
+            <td>{{ f.rating }}</td>
+            <td>{{ f.created_at }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="text-muted">You have not submitted any feedback yet.</p>
+{% endif %}
+
+{% endblock %}

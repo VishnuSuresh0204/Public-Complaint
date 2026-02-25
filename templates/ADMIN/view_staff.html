@@ -1,0 +1,59 @@
+{% extends 'ADMIN/commen.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <h3 class="mb-4">Staff Approval</h3>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Department</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in staff %}
+                <tr>
+                    <td>{{ s.name }}</td>
+                    <td>
+                        {% if s.profile_pic %}
+                            <img src="{{ s.profile_pic.url }}" width="50" height="50" alt="{{ s.name }}" class="rounded-circle">
+                        {% else %}
+                            <span class="text-muted">No Image</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ s.department }}</td>
+                    <td>{{ s.phone }}</td>
+                    <td>{{ s.email }}</td>
+                    <td>
+                        {% if s.status == "active" %}
+                            <span class="badge bg-success">Active</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">{{ s.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if s.status != "active" %}
+                            <a href="/approve_staff/?id={{ s.id }}" class="btn btn-outline-success btn-sm">Approve</a>
+                        {% else %}
+                            <span class="text-success">Approved</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">No staff pending approval.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

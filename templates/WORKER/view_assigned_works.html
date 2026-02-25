@@ -1,0 +1,55 @@
+{% extends 'WORKER/commen.html' %}
+{% block content %}
+
+<div class="container">
+    <h3 class="mb-4">Assigned Works</h3>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle shadow-sm">
+            <thead class="table-light">
+                <tr>
+                    <th>Title</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Assigned On</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for w in works %}
+                <tr>
+                    <td>
+                        <div class="fw-bold">{{ w.title }}</div>
+                        <div class="small text-muted">{{ w.description|truncatechars:50 }}</div>
+                    </td>
+                    <td>{{ w.location }}</td>
+                    <td>
+                        {% if w.status == "Assigned" %}
+                        <span class="badge bg-primary">Assigned</span>
+                        {% elif w.status == "Ongoing" %}
+                        <span class="badge bg-info text-dark">Ongoing</span>
+                        {% elif w.status == "Completed" %}
+                        <span class="badge bg-success">Completed</span>
+                        {% else %}
+                        <span class="badge bg-secondary">{{ w.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ w.created_at|date:"d M Y" }}</td>
+                    <td>
+                        <a href="/worker_update_work_status/?id={{ w.id }}"
+                            class="btn btn-sm btn-outline-primary shadow-sm">
+                            Update Status
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">No works assigned to you yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

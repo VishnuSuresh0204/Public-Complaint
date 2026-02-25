@@ -1,0 +1,80 @@
+{% extends 'CITIZEN/commen.html' %}
+{% block content %}
+
+<h3>Register a Complaint</h3>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label class="form-label">Complaint Title</label>
+        <input type="text" name="title" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea name="description" class="form-control" rows="3" required></textarea>
+    </div>
+
+
+    <div class="mb-3">
+        <label class="form-label">Location Details</label>
+
+        <div class="row">
+            <div class="col-md-6 mb-2">
+                <input type="text" name="area" class="form-control" placeholder="Area/Street Name *" required>
+            </div>
+            <div class="col-md-6 mb-2">
+                <input type="text" name="landmark" class="form-control" placeholder="Nearby Landmark *" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-2">
+                <select name="district" class="form-control" required>
+                    <option value="">-- Select District *--</option>
+                    <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                    <option value="Kollam">Kollam</option>
+                    <option value="Pathanamthitta">Pathanamthitta</option>
+                    <option value="Alappuzha">Alappuzha</option>
+                    <option value="Kottayam">Kottayam</option>
+                    <option value="Idukki">Idukki</option>
+                    <option value="Ernakulam">Ernakulam</option>
+                    <option value="Thrissur">Thrissur</option>
+                    <option value="Palakkad">Palakkad</option>
+                    <option value="Malappuram">Malappuram</option>
+                    <option value="Kozhikode">Kozhikode</option>
+                    <option value="Wayanad">Wayanad</option>
+                    <option value="Kannur">Kannur</option>
+                    <option value="Kasaragod">Kasaragod</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-2">
+                <input type="text" name="pincode" class="form-control" placeholder="Pin Code (6 digits) *"
+                    pattern="[0-9]{6}" maxlength="6" required>
+            </div>
+        </div>
+        <small class="text-muted">Please provide complete location details for accurate complaint resolution</small>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Department</label>
+        <select name="department" class="form-control" required>
+            <option value="">-- Select Department --</option>
+            {% for d in departments %}
+            <option value="{{ d.id }}">{{ d.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Upload Image</label>
+        <input type="file" name="damaged_image" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Submit Complaint
+    </button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'CITIZEN/commen.html' %}
+{% block content %}
+
+<h3>Add Feedback</h3>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>Select Complaint</label>
+        <select name="complaint_id" class="form-control" required>
+            <option value="">-- Choose Complaint --</option>
+            {% for c in complaints %}
+            <option value="{{ c.id }}">{{ c.title }} (Status: {{ c.status }})</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Message</label>
+        <textarea name="message" class="form-control" required></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label>Rating (1–5)</label>
+        <input type="number" name="rating" min="1" max="5" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+</form>
+
+{% endblock %}
