@@ -8,13 +8,23 @@
                 <h4 class="mb-0">Edit Department</h4>
             </div>
             <div class="card-body">
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
 
                     <div class="mb-3">
                         <label for="name" class="form-label">Department Name</label>
                         <input type="text" name="name" id="name" class="form-control" value="{{ department.name }}"
                             required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label d-block">Current Image</label>
+                        {% if department.image %}
+                        <img src="{{ department.image.url }}" class="img-thumbnail mb-2" style="max-height: 100px;">
+                        {% else %}
+                        <p class="text-muted small">No image uploaded</p>
+                        {% endif %}
+                        <input type="file" name="image" class="form-control">
                     </div>
 
                     <div class="mb-3">

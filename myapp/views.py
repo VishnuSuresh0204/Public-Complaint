@@ -336,7 +336,8 @@ def admin_view_complaints(request):
     if 'aid' not in request.session:
         return redirect('/login/')
 
-    complaints = Complaint.objects.all().order_by('-created_at')
+    # Optimize with select_related for efficiency in loops
+    complaints = Complaint.objects.select_related('citizen', 'department', 'worker').all().order_by('-created_at')
     complaint_data = []
 
     for c in complaints:
@@ -347,6 +348,7 @@ def admin_view_complaints(request):
         })
 
     return render(request, "ADMIN/view_complaints.html", {"complaint_data": complaint_data})
+
 
 def admin_add_department(request):
     # Admin session check
@@ -382,13 +384,15 @@ def admin_view_department(request):
     if request.method == "POST":
         name = request.POST.get("name")
         description = request.POST.get("description")
+        image = request.FILES.get("image")
 
         if Department.objects.filter(name=name).exists():
             messages.error(request, "Department already exists.")
         else:
             Department.objects.create(
                 name=name,
-                description=description
+                description=description,
+                image=image
             )
             messages.success(request, "Department added successfully.")
 
@@ -415,6 +419,7 @@ def admin_edit_department(request):
     if request.method == "POST":
         name = request.POST.get("name")
         description = request.POST.get("description")
+        image = request.FILES.get("image")
 
         # Check if the new name already exists for a different department
         if Department.objects.filter(name=name).exclude(id=dept_id).exists():
@@ -422,6 +427,8 @@ def admin_edit_department(request):
         else:
             dept.name = name
             dept.description = description
+            if image:
+                dept.image = image
             dept.save()
             messages.success(request, "Department updated successfully.")
             return redirect('/admin_view_department/')
@@ -625,13 +632,39 @@ def staff_complaints(request):
     except Staff.DoesNotExist:
         return redirect('/login/')
 
+    # Only show active complaints (Pending or Ongoing)
     complaints = Complaint.objects.filter(
         department=staff.department
-    ).select_related('citizen').order_by('-created_at')
+    ).exclude(status='Completed').select_related('citizen').order_by('-created_at')
 
     return render(
         request,
         "STAFF/staff_complaints.html",
+        {
+            "staff": staff,
+            "complaints": complaints
+        }
+    )
+
+def staff_view_history(request):
+    # Session check
+    if 'sid' not in request.session:
+        return redirect('/login/')
+
+    try:
+        staff = Staff.objects.get(loginid_id=request.session['sid'])
+    except Staff.DoesNotExist:
+        return redirect('/login/')
+
+    # Show only completed complaints
+    complaints = Complaint.objects.filter(
+        department=staff.department,
+        status='Completed'
+    ).select_related('citizen').order_by('-created_at')
+
+    return render(
+        request,
+        "STAFF/view_history.html",
         {
             "staff": staff,
             "complaints": complaints

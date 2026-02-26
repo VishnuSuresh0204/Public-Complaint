@@ -9,7 +9,7 @@
         <th>Citizen</th>
         <th>Image</th>
         <th>Status</th>
-        <th>Assigned Staff</th>
+        <th>Assigned Worker</th>
         <th>Latest Action</th>
         <th>Actions</th>
     </tr>
@@ -40,12 +40,13 @@
         <td>{{ item.complaint.status }}</td>
 
         <td>
-            {% if item.complaint.assigned_staff %}
-            {{ item.complaint.assigned_staff.name }}
+            {% if item.complaint.worker %}
+            {{ item.complaint.worker.name }}
             {% else %}
-            -
+            <span class="text-danger">Not Assigned</span>
             {% endif %}
         </td>
+
 
         <td>
             {% if item.latest_action %}

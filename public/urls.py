@@ -61,6 +61,7 @@ urlpatterns = [
 
     path('staff_my_profile/', views.my_profile),
     path('staff_complaints/', views.staff_complaints),
+    path('staff_view_history/', views.staff_view_history),
     path('staff_add_complaint_action/', views.add_complaint_action),
     path('staff_complaint_action_page/', views.staff_complaint_action_page),
     

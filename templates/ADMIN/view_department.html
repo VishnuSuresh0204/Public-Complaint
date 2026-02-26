@@ -18,6 +18,7 @@
 <table class="table table-bordered">
   <tr>
     <th>#</th>
+    <th>Image</th>
     <th>Department Name</th>
     <th>Description</th>
     <th>Actions</th>
@@ -26,6 +27,13 @@
   {% for d in departments %}
   <tr>
     <td>{{ forloop.counter }}</td>
+    <td>
+      {% if d.image %}
+      <img src="{{ d.image.url }}" width="50" height="50" class="rounded shadow-sm">
+      {% else %}
+      <span class="text-muted">No Image</span>
+      {% endif %}
+    </td>
     <td>{{ d.name }}</td>
     <td>{{ d.description|default:"-" }}</td>
     <td>
@@ -38,7 +46,7 @@
   </tr>
   {% empty %}
   <tr>
-    <td colspan="4">No departments available</td>
+    <td colspan="5">No departments available</td>
   </tr>
   {% endfor %}
 
@@ -48,7 +56,7 @@
 <div class="modal fade" id="addDeptModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form method="POST">
+      <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="modal-header">
           <h5 class="modal-title">Add Department</h5>
@@ -59,6 +67,11 @@
           <div class="mb-3">
             <label>Department Name</label>
             <input type="text" name="name" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label>Department Image</label>
+            <input type="file" name="image" class="form-control">
           </div>
 
           <div class="mb-3">
