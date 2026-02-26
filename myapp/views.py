@@ -1134,3 +1134,56 @@ def chat_messages(request, receiver_id):
         "receiver_login": receiver_login,
         "user_info": user_info
     })
+
+def work_chat(request, complaint_id):
+    if 'sid' not in request.session and 'wid' not in request.session:
+        return redirect('/login/')
+
+    try:
+        complaint = Complaint.objects.get(id=complaint_id)
+    except Complaint.DoesNotExist:
+        return redirect('/login/')
+
+    sender_login = Login.objects.get(id=request.user.id)
+    
+    # Determine receiver based on who is logged in
+    receiver_login = None
+    role = ""
+    name = ""
+    
+    if 'sid' in request.session:
+        role = "staff"
+        name = Staff.objects.get(loginid_id=request.session['sid']).name
+        if complaint.worker:
+            receiver_login = complaint.worker.loginid
+    elif 'wid' in request.session:
+        role = "worker"
+        name = Worker.objects.get(loginid_id=request.session['wid']).name
+        # Find the staff responsible for this department
+        staff_member = Staff.objects.filter(department=complaint.department).first()
+        if staff_member:
+            receiver_login = staff_member.loginid
+
+    if request.method == "POST":
+        msg = request.POST.get('message')
+        if msg and receiver_login:
+            Chat.objects.create(
+                complaint=complaint,
+                sender=sender_login,
+                receiver=receiver_login,
+                message=msg
+            )
+        return redirect(f'/work_chat/{complaint_id}/')
+
+    # Get messages for THIS specific complaint
+    messages_list = Chat.objects.filter(
+        complaint=complaint
+    ).order_by('timestamp')
+
+    return render(request, "work_chat.html", {
+        "messages_list": messages_list,
+        "complaint": complaint,
+        "receiver_login": receiver_login,
+        "user_info": {"name": name, "role": role}
+    })
+

@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chat | KeralaGov</title>
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            border-radius: 12px;
+            border: none;
+        }
+
+        .card-header {
+            border-radius: 12px 12px 0 0 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header" class="header sticky-top shadow-sm bg-white mb-4">
+        <div class="container d-flex align-items-center py-2">
+            <a href="/" class="logo d-flex align-items-center me-auto text-decoration-none">
+                <img src="{% static 'assets/img/k-logo.jpg' %}" alt="Logo" height="30">
+                <h4 class="mb-0 ms-2 text-dark sitename">KeralaGov</h4>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+
+</html>

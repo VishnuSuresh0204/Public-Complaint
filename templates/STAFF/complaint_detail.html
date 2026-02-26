@@ -108,14 +108,20 @@
             <p class="text-muted">No actions or updates recorded yet</p>
             {% endif %}
 
-            <!-- Staff Action Button -->
-            <div class="mt-4">
+            <!-- Staff Action & Chat Button -->
+            <div class="mt-4 d-flex gap-2">
                 <form method="POST" action="/staff_add_complaint_action/">
                     {% csrf_token %}
                     <input type="hidden" name="complaint_id" value="{{ complaint.id }}">
                     <button type="submit" class="btn btn-primary">Take Manual Action</button>
                 </form>
+                {% if complaint.worker %}
+                <a href="/work_chat/{{ complaint.id }}/" class="btn btn-outline-info">
+                    <i class="bi bi-chat-fill me-1"></i> Chat about this Work
+                </a>
+                {% endif %}
             </div>
+
         </div>
     </div>
 </div>

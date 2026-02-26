@@ -97,6 +97,7 @@ class ComplaintAction(models.Model):
 
 
 class Chat(models.Model):
+    complaint = models.ForeignKey(Complaint, on_delete=models.CASCADE, null=True, blank=True)
     sender = models.ForeignKey(Login, on_delete=models.CASCADE, related_name="sent_messages")
     receiver = models.ForeignKey(Login, on_delete=models.CASCADE, related_name="received_messages")
     message = models.TextField()

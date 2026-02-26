@@ -77,6 +77,7 @@ urlpatterns = [
     # Chat System
     path('chat/', views.chat_list),
     path('chat_messages/<int:receiver_id>/', views.chat_messages),
+    path('work_chat/<int:complaint_id>/', views.work_chat),
 
     path('citizen_add_complaint/', views.citizen_add_complaint),
     path('add_feedback/', views.add_feedback),
