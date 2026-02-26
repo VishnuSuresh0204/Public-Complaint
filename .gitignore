@@ -1,0 +1,24 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django
+db.sqlite3
+media/
+local_settings.py
+
+# Env
+.venv/
+venv/
+env/
+bin/
+include/
+lib/
+share/
+pyvenv.cfg
+
+# IDE
+.vscode/
+.idea/
+.gemini/
+.agents/
