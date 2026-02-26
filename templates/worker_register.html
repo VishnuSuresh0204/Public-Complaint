@@ -1,0 +1,86 @@
+{% extends 'commen.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-5">
+  <div class="row gy-5 gx-lg-5">
+
+    <!-- Left Info -->
+    <div class="col-lg-4">
+      <div class="info">
+        <h3>Worker Registration</h3>
+        <p>Register as a worker to handle cleanup and repair tasks assigned by authorities.</p>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="col-lg-8">
+
+      <!-- Messages -->
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Name & Department -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <input type="text" name="name" class="form-control" placeholder="Full Name" required>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <select name="department" class="form-control" required>
+              <option value="">-- Select Department --</option>
+              {% for dept in departments %}
+                <option value="{{ dept.id }}">{{ dept.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <!-- Phone & Email -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <input type="text" name="phone" class="form-control" placeholder="Phone Number" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+          </div>
+        </div>
+
+        <!-- Username -->
+        <div class="mb-3">
+          <input type="text" name="username" class="form-control" placeholder="Username" required>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+          <input type="password" name="password" class="form-control" placeholder="Password" required>
+        </div>
+
+        <!-- Profile Picture -->
+        <div class="mb-4">
+          <label class="form-label">Profile Picture (Optional)</label>
+          <input type="file" name="profile_pic" class="form-control" accept="image/*">
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-success w-100">
+          Register as Worker
+        </button>
+
+      </form>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

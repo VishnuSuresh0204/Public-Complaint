@@ -1,0 +1,40 @@
+{% extends 'WORKER/commen.html' %}
+{% block content %}
+
+<div class="row gy-4">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm border-0 bg-light p-3 text-center">
+            <div class="card-body">
+                <i class="bi bi-briefcase fs-1 text-primary mb-3"></i>
+                <h5 class="card-title">Assigned Works</h5>
+                <p class="card-text">View and update complaints assigned to you.</p>
+                <a href="/worker_view_assigned_works" class="btn btn-primary stretched-link">View Works</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm border-0 bg-light p-3 text-center">
+            <div class="card-body">
+                <i class="bi bi-chat-dots fs-1 text-success mb-3"></i>
+                <h5 class="card-title">Messages</h5>
+                <p class="card-text">Chat with authorities regarding your work.</p>
+                <a href="/chat/?with=staff" class="btn btn-success stretched-link">Open Chat</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    <h3>Welcome back, {{ worker.name }}</h3>
+    <p>You are part of the <strong>{{ worker.department.name }}</strong> department.</p>
+    <div class="card shadow-sm border-start border-primary border-4 p-3 mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Worker profile</h5>
+            <p class="mb-1"><strong>Email:</strong> {{ worker.email }}</p>
+            <p class="mb-0"><strong>Phone:</strong> {{ worker.phone }}</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

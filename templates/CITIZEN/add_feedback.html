@@ -1,0 +1,46 @@
+{% extends 'CITIZEN/commen.html' %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Add Feedback</h4>
+            </div>
+            <div class="card-body">
+                <p><strong>Complaint Title:</strong> {{ complaint.title }}</p>
+                <p><strong>Department:</strong> {{ complaint.department.name }}</p>
+
+                <form method="POST" action="/add_feedback/">
+                    {% csrf_token %}
+                    <input type="hidden" name="complaint_id" value="{{ complaint.id }}">
+
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Feedback Message</label>
+                        <textarea name="message" id="message" class="form-control" rows="4"
+                            placeholder="Enter your feedback here..." required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Rating (1-5)</label>
+                        <select name="rating" id="rating" class="form-select" required>
+                            <option value="">Choose a rating</option>
+                            <option value="5">5 - Excellent</option>
+                            <option value="4">4 - Very Good</option>
+                            <option value="3">3 - Good</option>
+                            <option value="2">2 - Fair</option>
+                            <option value="1">1 - Poor</option>
+                        </select>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">Submit Feedback</button>
+                        <a href="/user_view_complaints/" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

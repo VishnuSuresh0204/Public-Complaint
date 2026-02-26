@@ -1,0 +1,121 @@
+{% extends 'CITIZEN/commen.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>My Complaint Details</h3>
+        <a href="/user_view_complaints/" class="btn btn-secondary">← Back to My Complaints</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <!-- Complaint Title and Status -->
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <h4 class="text-primary">{{ complaint.title }}</h4>
+                </div>
+                <div class="col-md-4 text-end">
+                    {% if complaint.status == "Pending" %}
+                    <span class="badge bg-warning text-dark fs-6">{{ complaint.status }}</span>
+                    {% elif complaint.status == "Ongoing" %}
+                    <span class="badge bg-info text-dark fs-6">{{ complaint.status }}</span>
+                    {% elif complaint.status == "Completed" %}
+                    <span class="badge bg-success fs-6">{{ complaint.status }}</span>
+                    {% else %}
+                    <span class="badge bg-secondary fs-6">{{ complaint.status }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Basic Information -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h6 class="text-muted">Department:</h6>
+                    <p><strong>{{ complaint.department.name|default:"Not Assigned Yet" }}</strong></p>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="text-muted">Date Filed:</h6>
+                    <p>{{ complaint.created_at|date:"d M Y, h:i A" }}</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Description -->
+            <div class="mb-3">
+                <h6 class="text-muted">Description:</h6>
+                <p class="fs-6">{{ complaint.description }}</p>
+            </div>
+
+            <!-- Location -->
+            <div class="mb-3">
+                <h6 class="text-muted">📍 Location:</h6>
+                <p class="fs-6">{{ complaint.location }}</p>
+            </div>
+
+            <!-- Image -->
+            {% if complaint.damaged_image %}
+            <div class="mb-3">
+                <h6 class="text-muted">Uploaded Image:</h6>
+                <a href="{{ complaint.damaged_image.url }}" target="_blank">
+                    <img src="{{ complaint.damaged_image.url }}" alt="Complaint Image" class="img-fluid"
+                        style="max-width: 500px; border: 1px solid #ddd; border-radius: 5px;">
+                </a>
+                <p class="text-muted small mt-1">Click to view full size</p>
+            </div>
+            {% endif %}
+
+            <hr>
+
+            <!-- Actions History -->
+            <h5 class="mb-3">Progress & Actions</h5>
+            {% if actions %}
+            {% for action in actions %}
+            {% if action.staff %}
+            <div class="card mb-3 bg-light border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <strong class="text-primary">
+                                Authority Update ({{ action.staff.department.name }})
+                            </strong>
+                            <span class="badge bg-info text-dark ms-2">{{ action.status_updated_to }}</span>
+                        </div>
+                        <small class="text-muted">{{ action.action_date|date:"d M Y, h:i A" }}</small>
+                    </div>
+                    <p class="mt-2 mb-0">{{ action.action_note }}</p>
+                    {% if action.action_image %}
+                    <div class="mt-3">
+                        <a href="{{ action.action_image.url }}" target="_blank">
+                            <img src="{{ action.action_image.url }}" alt="Progress Photo"
+                                style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 5px; max-height: 300px;">
+                        </a>
+                        <p class="small text-muted mt-1">Progress Photo</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% else %}
+            <p class="text-muted">No progress updates available yet.</p>
+            {% endif %}
+
+            <!-- Add Feedback/Report if Completed -->
+            {% if complaint.status == "Completed" or complaint.status == "Finished" %}
+            <hr>
+            <div class="mt-4">
+                <h6>Complaint Resolved?</h6>
+                <div class="btn-group" role="group">
+                    <a href="/add_feedback/?id={{ complaint.id }}" class="btn btn-success">✓ Add Feedback</a>
+                    <a href="/add_report/?id={{ complaint.id }}" class="btn btn-danger">⚠ Report Issue</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

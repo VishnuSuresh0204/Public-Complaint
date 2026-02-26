@@ -1,0 +1,81 @@
+{% extends 'CITIZEN/commen.html' %}
+{% block content %}
+
+<h3>My Complaints</h3>
+
+<a href="/citizen_add_complaint/" class="btn btn-success mb-3">+ Add Complaint</a>
+
+{% if complaint_data %}
+<table class="table table-bordered">
+    <tr>
+        <th>Title</th>
+        <th>Department</th>
+        <th>Location</th>
+        <th>Complaint Image</th>
+        <th>Status</th>
+        <th>Workdone Image</th>
+        <th>Feedback</th>
+        <th>Report</th>
+        <th>Details</th>
+    </tr>
+
+    {% for item in complaint_data %}
+    <tr>
+        <td>{{ item.complaint.title }}</td>
+        <td>{% if item.complaint.department %}{{ item.complaint.department.name }}{% else %}-{% endif %}</td>
+        <td>{{ item.complaint.location }}</td>
+        <td>
+            {% if item.complaint.damaged_image %}
+            <a href="{{ item.complaint.damaged_image.url }}" target="_blank">
+                <img src="{{ item.complaint.damaged_image.url }}" alt="Complaint Image"
+                    style="max-width: 80px; max-height: 80px; cursor: pointer;" class="img-thumbnail">
+            </a>
+            {% else %}
+            <span class="text-muted">No image</span>
+            {% endif %}
+        </td>
+        <td>
+            <span
+                class="badge {% if item.complaint.status == 'Completed' or item.complaint.status == 'Finished' %}bg-success{% else %}bg-warning{% endif %}">
+                {{ item.complaint.status }}
+            </span>
+        </td>
+        <td>
+            {% if item.workdone_action and item.workdone_action.action_image %}
+            <a href="{{ item.workdone_action.action_image.url }}" target="_blank">
+                <img src="{{ item.workdone_action.action_image.url }}" alt="Workdone Image"
+                    style="max-width: 80px; max-height: 80px; cursor: pointer;" class="img-thumbnail">
+            </a>
+            {% else %}
+            <span class="text-muted">Not available</span>
+            {% endif %}
+        </td>
+        <td>
+            {% if item.complaint.status == "Completed" or item.complaint.status == "Finished" %}
+            {% if item.feedback_exists %}
+            <a href="/add_feedback/?id={{ item.complaint.id }}" class="btn btn-warning btn-sm">Edit Feedback</a>
+            {% else %}
+            <a href="/add_feedback/?id={{ item.complaint.id }}" class="btn btn-primary btn-sm">Add Feedback</a>
+            {% endif %}
+            {% else %}
+            <span class="text-muted">Pending completion</span>
+            {% endif %}
+        </td>
+        <td>
+            {% if item.complaint.status == "Completed" or item.complaint.status == "Finished" %}
+            <a href="/add_report/?id={{ item.complaint.id }}" class="btn btn-danger btn-sm">Add Report</a>
+            {% else %}
+            <span class="text-muted">Cannot add</span>
+            {% endif %}
+        </td>
+        <td>
+            <a href="/citizen_complaint_detail/?id={{ item.complaint.id }}" class="btn btn-info btn-sm">👁 View</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No complaints submitted yet.</p>
+{% endif %}
+
+{% endblock %}

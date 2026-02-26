@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>KeralaGov | Worker Portal</title>
+
+    <!-- Favicons -->
+    <link rel="icon" href="{% static 'assets/img/favicon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'assets/img/apple-touch-icon.png' %}">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Raleway:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/aos/aos.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+</head>
+
+<body class="index-page">
+
+    <!-- ================= HEADER ================= -->
+    <header id="header" class="header sticky-top shadow-sm">
+        <div class="container d-flex align-items-center">
+
+            <a href="/" class="logo d-flex align-items-center me-auto" aria-label="Kerala Government Home">
+                <img src="{% static 'assets/img/k-logo.jpg' %}" alt="Government of Kerala Logo" height="40">
+                <h1 class="sitename ms-2">KeralaGov</h1>
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a href="/worker_home" class="active">Home</a></li>
+                    <li><a href="/worker_view_assigned_works">Assigned Works</a></li>
+                    <li><a href="/chat">Chat</a></li>
+                    <li><a href="/login">Logout</a></li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+
+            <div class="header-social-links d-none d-md-flex">
+                <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ================= MAIN ================= -->
+    <main id="main">
+
+        <section class="page-title page-title-bg py-4 bg-primary text-white">
+            <div class="container d-lg-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="mb-0 text-white">Worker Portal</h1>
+                    <p class="mb-0">{{ worker.department.name }} Department</p>
+                </div>
+                <div class="mt-2 mt-lg-0">
+                    <span class="badge bg-light text-primary">Logged in as: {{ worker.name }}</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Section -->
+        <section id="contact" class="contact section py-5">
+            <div class="container">
+                <div class="row gy-5">
+
+                    <!-- Dynamic Page Content -->
+                    <div class="col-lg-12" data-aos="fade-up">
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer id="footer" class="footer dark-background py-4">
+        <div class="container">
+            <div class="row gy-3 align-items-center">
+
+                <div class="col-md-6 text-center text-md-start">
+                    <span class="sitename fw-bold fs-4">KeralaGov</span>
+                    <p class="mb-0">Official Worker Portal of the Government of Kerala.</p>
+                </div>
+
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0"><strong>Emergency:</strong> 112</p>
+                    <p class="mb-0">© 2025 Government of Kerala</p>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top" aria-label="Scroll to top">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
+
+    <!-- Vendor JS -->
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+    <!-- Main JS -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+{% extends "STAFF/commen.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h3>Complaint Action for: {{ complaint.title }}</h3>
+    <hr>
+
+    <!-- Complaint Details -->
+    <div class="card mb-3">
+        <div class="card-body">
+            <p><strong>Citizen:</strong> {{ complaint.citizen.name }}</p>
+            <p><strong>Location:</strong> {{ complaint.location }}</p>
+            <p><strong>Description:</strong> {{ complaint.description }}</p>
+            <p>
+                <strong>Status:</strong>
+                <span class="badge bg-info">{{ complaint.status }}</span>
+            </p>
+
+            {% if complaint.damaged_image %}
+                <img src="{{ complaint.damaged_image.url }}" 
+                     class="img-fluid mt-2" 
+                     style="max-width:300px;">
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Add / Update Action -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5>Add / Update Action</h5>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label">Action Note</label>
+                    <textarea name="action_note" class="form-control" rows="3" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Update Status</label>
+                    <select name="status_updated_to" class="form-control" required>
+                        <option value="">-- Select Status --</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Ongoing">Ongoing</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Action Image (optional)</label>
+                    <input type="file" name="action_image" class="form-control">
+                </div>
+
+                <button type="submit" class="btn btn-success">Save Action</button>
+                <a href="/staff_complaints/" class="btn btn-secondary">Back</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Previous Actions -->
+    <h5>Previous Actions</h5>
+    {% if actions %}
+    <table class="table table-bordered">
+        <tr>
+            <th>Date</th>
+            <th>Action</th>
+            <th>Status</th>
+            <th>Image</th>
+        </tr>
+        {% for a in actions %}
+        <tr>
+            <td>{{ a.action_date|date:"d M Y H:i" }}</td>
+            <td>{{ a.action_note }}</td>
+            <td>{{ a.status_updated_to }}</td>
+            <td>
+                {% if a.action_image %}
+                    <img src="{{ a.action_image.url }}" width="80" height="80">
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p class="text-muted">No actions taken yet.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'ADMIN/commen.html' %}
+{% block content %}
+<h3>All Complaints</h3>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Title</th>
+        <th>Department</th>
+        <th>Citizen</th>
+        <th>Image</th>
+        <th>Status</th>
+        <th>Assigned Staff</th>
+        <th>Latest Action</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for item in complaint_data %}
+    <tr>
+        <td>{{ item.complaint.title }}</td>
+
+        <td>
+            {% if item.complaint.department %}
+            {{ item.complaint.department.name }}
+            {% else %}
+            -
+            {% endif %}
+        </td>
+
+        <td>{{ item.complaint.citizen.name }}</td>
+        <td>
+            {% if item.complaint.damaged_image %}
+            <a href="{{ item.complaint.damaged_image.url }}" target="_blank">
+                <img src="{{ item.complaint.damaged_image.url }}" alt="Complaint Image"
+                    style="max-width: 80px; max-height: 80px; cursor: pointer;" class="img-thumbnail">
+            </a>
+            {% else %}
+            <span class="text-muted">No image</span>
+            {% endif %}
+        </td>
+        <td>{{ item.complaint.status }}</td>
+
+        <td>
+            {% if item.complaint.assigned_staff %}
+            {{ item.complaint.assigned_staff.name }}
+            {% else %}
+            -
+            {% endif %}
+        </td>
+
+        <td>
+            {% if item.latest_action %}
+            {{ item.latest_action.action_note }} <br>
+            Status: {{ item.latest_action.status_updated_to }} <br>
+            By: {{ item.latest_action.staff.name }}
+            {% else %}
+            No actions yet
+            {% endif %}
+        </td>
+        <td>
+            <a href="/admin_complaint_detail/?id={{ item.complaint.id }}" class="btn btn-sm btn-info">View Details</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
