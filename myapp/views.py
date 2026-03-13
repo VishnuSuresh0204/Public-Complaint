@@ -472,6 +472,7 @@ def admin_reply_feedback(request, feedback_id):
         reply = request.POST.get('reply')
         feedback.reply = reply
         feedback.save()
+        messages.success(request, "Reply sent successfully.")
         return redirect('/admin_view_feedback/')
 
     return render(request, "ADMIN/reply_feedback.html", {
@@ -727,6 +728,7 @@ def staff_complaint_action_page(request):
         )
         complaint.status = request.POST.get("status_updated_to")
         complaint.save()
+        messages.success(request, "Complaint action recorded and status updated.")
         return redirect('/staff_complaints/')
 
     actions = ComplaintAction.objects.filter(
@@ -784,7 +786,7 @@ def citizen_add_complaint(request):
             department=department,
             damaged_image=image
         )
-
+        messages.success(request, "Complaint submitted successfully.")
         return redirect("/citizen_home")
 
     return render(request, "CITIZEN/add_complaint.html", {
@@ -979,6 +981,7 @@ def add_report(request):
             subject=subject,
             description=description
         )
+        messages.success(request, "Report submitted successfully.")
         return redirect('/view_reports/')
 
     return render(request, "CITIZEN/add_report.html", {

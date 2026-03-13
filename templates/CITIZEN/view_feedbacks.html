@@ -11,6 +11,7 @@
             <th>Complaint</th>
             <th>Message</th>
             <th>Rating</th>
+            <th>Admin Reply</th>
             <th>Date</th>
             <th>Actions</th>
         </tr>
@@ -22,6 +23,13 @@
             <td>{{ f.complaint.title }}</td>
             <td>{{ f.message }}</td>
             <td>{{ f.rating }}/5</td>
+            <td>
+                {% if f.reply %}
+                    <span class="text-success">{{ f.reply }}</span>
+                {% else %}
+                    <span class="text-muted italic">Waiting for reply...</span>
+                {% endif %}
+            </td>
             <td>{{ f.created_at|date:"d M Y" }}</td>
             <td>
                 <div class="btn-group">

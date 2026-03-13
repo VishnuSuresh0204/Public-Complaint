@@ -83,11 +83,20 @@
 
         <!-- Dynamic Page Content -->
         <div class="col-lg-8" data-aos="fade-up">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+          {% endif %}
+
           {% block content %}
           {% endblock %}
         </div>
 
-        <!-- Sidebar -->
+        <!-- Sidebar
         <aside class="col-lg-4" data-aos="fade-up" data-aos-delay="150">
           <div class="info p-4 shadow-sm bg-white rounded">
 
@@ -127,7 +136,7 @@
             </ul>
 
           </div>
-        </aside>
+        </aside> -->
 
       </div>
     </div>

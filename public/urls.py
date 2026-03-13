@@ -40,6 +40,7 @@ urlpatterns = [
     path('admin_edit_department/', views.admin_edit_department),
     path('admin_delete_department/', views.admin_delete_department),
     path('admin_view_feedback/', views.admin_view_feedbacks),
+    path('admin_reply_feedback/<int:feedback_id>/', views.admin_reply_feedback),
     path('admin_view_reports/', views.admin_view_reports),
 
     # Worker Registration and Management

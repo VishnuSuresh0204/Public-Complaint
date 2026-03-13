@@ -2644,3 +2644,23 @@ section,
 .page-title-bg .breadcrumbs a {
   color: #ffffff;
 }
+
+/* Sticky Footer Fix */
+html {
+  height: 100% !important;
+}
+
+body {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 100% !important;
+  margin: 0 !important;
+}
+
+main, #main, .main {
+  flex: 1 0 auto !important;
+}
+
+#header, .header, #footer, .footer {
+  flex-shrink: 0 !important;
+}
